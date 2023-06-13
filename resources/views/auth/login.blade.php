@@ -6,7 +6,7 @@
 <div class="row justify-content-center">
 
     <div class="text-center mt-5">
-        <h1 class="text-white">Tech-Admin - Laravel Admin Panel</h1>
+        <h1 class="text-white">Laravel Blogging Platform</h1>
     </div>
 
     <div class="col-xl-10 col-lg-12 col-md-9">
@@ -59,17 +59,13 @@
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="{{route('password.request')}}">Forgot Password?</a>
+                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">{{ __('Register') }}</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="text-center mt-5">
-        <h6 class="text-white">Developed By : <a class="text-white" href="https://techtoolindia.com">TechTool India</a></h6>
     </div>
 
 </div>

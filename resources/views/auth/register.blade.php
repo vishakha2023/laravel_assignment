@@ -1,8 +1,11 @@
-@extends('layouts.app')
+@extends('auth.layouts.app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        <div class="text-center mt-5">
+            <h1 class="text-white">Laravel Blogging Platform</h1>
+        </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>

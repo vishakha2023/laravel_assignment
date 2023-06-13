@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Posts;
-Use DB;
+use DB;
 
 class PostsController extends Controller
 {
@@ -41,30 +41,17 @@ class PostsController extends Controller
             // 'postpic'     => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // DB::beginTransaction();
+        DB::beginTransaction();
         try {
 
-            // $destinationPath = 'posts/images';
-            // // $myimage = $request->postpic->getClientOriginalName();
-            // $request->postpic->move(public_path($destinationPath));
-
-    //         $imageName = time() . '.' . $request->postpic->extension();
-    // $request->postpic->move(public_path('posts/images'));
-    // if($file = $request->hasFile('postpic')) {
-        $file = $request->file('postpic') ;
-            $fileName = $file->getClientOriginalName() ;
-            $destinationPath = public_path().'/posts/images' ;
-            $file->move($destinationPath,$fileName);
-    // $request->postpic->storeAs('public/posts/images', $imageName);
 
             Posts::create([
                     'name'    => $request->title,
                     'desc'     => $request->desc,
-                    'img'     => $request->postpic,
+                    // 'img'     => $request->postpic,
 
                 ]);
-                // DB::commit();
-    // }
+                DB::commit();
 
             return redirect()->route('posts.index')->with('success','Post Created Successfully.');
 
@@ -104,6 +91,21 @@ class PostsController extends Controller
             // Rollback and return with Error
             DB::rollBack();
             return redirect()->back()->withInput()->with('error', $th->getMessage());
+        }
+    }
+    public function delete(Posts $post)
+    {
+        DB::beginTransaction();
+        try {
+            // Delete User
+            Posts::whereId($post->id)->delete();
+
+            DB::commit();
+            return redirect()->route('posts.index')->with('success', 'Post Deleted Successfully!.');
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 }

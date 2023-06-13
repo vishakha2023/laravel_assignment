@@ -46,11 +46,16 @@
                                     <td style="display: flex">
                                         <a href="{{ route('posts.edit', ['post' => $post->id]) }}"
                                             class="btn btn-primary m-2">
-                                            <i class="fa fa-pen"></i>
+                                            <i class="fa fa-pen">Edit</i>
                                         </a>
-                                        <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        <a class="btn btn-danger" href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
+                    <i class="fas fa-trash">Delete</i>
+                </a>
+                <form id="user-delete-form" method="POST" action="{{ route('posts.destroy', ['post' => $post->id]) }}">
+                    @csrf
+                    @method('DELETE')
+                </form>
                                     </td>
                                 </tr>
                             @endforeach
