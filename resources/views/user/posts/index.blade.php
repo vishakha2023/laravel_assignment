@@ -20,7 +20,7 @@
         </div>
 
         {{-- Alert Messages --}}
-        {{-- @include('common.alert') --}}
+        @include('common.alert')
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -33,22 +33,25 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th width="20%">Name</th>
-                                <th width="25%">Desc</th>
-                                <th width="10%">Action</th>
+                                <th>Name</th>
+                                <th>Desc</th>
+                                <th>Photo</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+
                             @foreach ($posts as $post)
                                 <tr>
                                     <td>{{ $post->name }}</td>
                                     <td>{{ $post->desc }}</td>
+                                    <td><img src="{{ asset('posts/image/') }}/{{ $post->img }}" width="150" height="150"/></td>
                                     <td style="display: flex">
                                         <a href="{{ route('posts.edit', ['post' => $post->id]) }}"
                                             class="btn btn-primary m-2">
                                             <i class="fa fa-pen">Edit</i>
                                         </a>
-                                        <a class="btn btn-danger" href="{{ route('logout') }}"
+                                        <a class="btn btn-danger"
                     onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
                     <i class="fas fa-trash">Delete</i>
                 </a>

@@ -14,19 +14,18 @@
     </div>
 
     {{-- Alert Messages --}}
-    {{-- @include('common.alert') --}}
+    @include('common.alert')
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Add New Post</h6>
         </div>
-        <form method="POST" action="{{route('posts.store')}}">
+        <form method="POST" action="{{route('posts.store')}}" accept-charset="utf-8"
+        enctype="multipart/form-data">
             @csrf
             <div class="card-body">
                 <div class="form-group row">
-
-                    {{-- First Name --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Title</label>
                         <input
@@ -41,10 +40,6 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-
-
-
-                    {{-- Email --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Description</label>
                         <textarea
@@ -60,15 +55,11 @@
                     </div>
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Photo</label>
-                    <input type="file" name="postpic" class="form-control form-control-user @error('postpic') is-invalid @enderror" class="form-control" id="postpic" value="{{ old('postpic') }}">
-                    @error('postpic')
+                        <input type="file" name="postpic" class="form-control form-control-user @error('postpic') is-invalid @enderror" class="form-control" id="postpic" value="{{ old('postpic') }}">
+                        @error('postpic')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-
-
-
-
                 </div>
             </div>
 

@@ -34,35 +34,37 @@ class PostsController extends Controller
     }
     public function store(Request $request)
     {
-
         $request->validate([
             'title'    => 'required',
             'desc'     => 'required',
-            // 'postpic'     => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'postpic'     => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         DB::beginTransaction();
         try {
-
-
-            Posts::create([
+            if($request->hasFile('postpic'))
+            {
+                $file= $request->file('postpic');
+                $fileName = $request->postpic->getClientOriginalName();
+                $request->postpic->move(public_path('posts/image'), $fileName);
+                Posts::create([
                     'name'    => $request->title,
                     'desc'     => $request->desc,
-                    // 'img'     => $request->postpic,
+                    'img'     => $fileName,
 
                 ]);
                 DB::commit();
 
+            }
             return redirect()->route('posts.index')->with('success','Post Created Successfully.');
 
         } catch (\Throwable $th) {
-            // Rollback and return with Error
             DB::rollBack();
             return redirect()->back()->withInput()->with('error', $th->getMessage());
         }
     }
     public function edit(Posts $post)
-    {
+    {dd($post->id);
         return view('user.posts.edit')->with([
             'post'  => $post
         ]);
@@ -73,17 +75,26 @@ class PostsController extends Controller
         $request->validate([
             'title'    => 'required',
             'desc'     => 'required',
+            // 'postpic'     => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         DB::beginTransaction();
         try {
-
-            // Store Data
-            $post_updated = Posts::whereId($post->id)->update([
-                'name'    => $request->title,
-                'desc'     => $request->desc,
-            ]);
-
+            if($files = $request->file('postpic')) {
+                $fileName = $request->postpic->getClientOriginalName();
+                $request->postpic->move(public_path('posts/image'), $fileName);
+                $post_updated = Posts::whereId($post->id)->update([
+                    'name'    => $request->title,
+                    'desc'     => $request->desc,
+                    'img'     => $fileName,
+                ]);
+            }
+            else{
+                $post_updated = Posts::whereId($post->id)->update([
+                    'name'    => $request->title,
+                    'desc'     => $request->desc,
+                ]);
+            }
             DB::commit();
             return redirect()->route('posts.index')->with('success','Post Updated Successfully.');
 
@@ -97,9 +108,8 @@ class PostsController extends Controller
     {
         DB::beginTransaction();
         try {
-            // Delete User
-            Posts::whereId($post->id)->delete();
-
+dd($post->id);
+            $post = Posts::where('id',$post->id)->delete();
             DB::commit();
             return redirect()->route('posts.index')->with('success', 'Post Deleted Successfully!.');
 

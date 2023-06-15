@@ -31,7 +31,7 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function()
     Route::post('/update', [HomeController::class, 'updateProfile'])->name('update');
 });
 Route::prefix('posts')->name('posts.')->middleware('auth')->group(function(){
-    Route::get('/', [PostsController::class, 'index'])->name('index');
+    Route::get('/show', [PostsController::class, 'index'])->name('index');
     Route::get('/create', [PostsController::class, 'create'])->name('create');
     Route::post('/store', [PostsController::class, 'store'])->name('store');
     Route::get('/edit/{post}', [PostsController::class, 'edit'])->name('edit');
